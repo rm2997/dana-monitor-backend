@@ -1,16 +1,31 @@
-FROM node:20-alpine
-ENV NODE_ENV=production
+# Use the official Node.js image as the base image
+FROM docker.arvancloud.ir/node:22-alpine3.19
+
+# Set env variables 
+ENV HOSTNAME='Dana-monitor-backend'
 ENV APP_PORT=4000
-ENV DANA_SEREVR_ADDRESS=192.168.90.90
+ENV DANA_SEREVR_ADDRESS=localhost
 ENV DANA_SEREVR_PORT=25000
-ENV DANA_SQL_ADDRESS=192.168.90.90
+ENV DANA_SQL_ADDRESS=localhost
 ENV DANA_SQL_USER='sa'
 ENV DANA_SQL_PASS='123456'
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
-COPY . .
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
+
+# Install dependencies 
+RUN npm install 
+
+# Install Nest framework
+RUN npm install -g @nestjs/cli
+# Copy the entire app to the container
+COPY . ./
+
+# Expose the port on which the app will run 
 EXPOSE 4000
-RUN chown -R node /usr/src/app
-USER node
-CMD ["npm", "start"]
+
+# Start the React app
+CMD ["npm", "run","start:prod"]

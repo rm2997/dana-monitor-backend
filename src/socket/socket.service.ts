@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import * as net from 'net';
 import { SocketConfig, SocketReceiveMessage } from './entities';
-import { parse } from 'path';
 
 @Injectable()
 export class SocketService {
@@ -24,7 +23,7 @@ export class SocketService {
         : options.maxAttemps;
     this.clientSocket = this.createSocket();
     if (!this.clientSocket) {
-      Logger.error('Client socket is not initiate...', 'Socket');
+      Logger.error('Client socket is not initiated...', 'Socket');
       return;
     }
     this.connectToServer();
@@ -58,8 +57,8 @@ export class SocketService {
     }
     if (this.attemps > this.maxAttemps && this.timerFlag == true) {
       Logger.warn('Maximum attempts to reconnect server exceeded...', 'Socket');
-      this.clearTimer();
       this.attemps = 1;
+      this.clearTimer();
       return;
     }
     this.clientSocket.connect(this.serverAddress, () => {
@@ -118,6 +117,9 @@ export class SocketService {
   }
 
   sendData(data: any): void {
+    if (this.clientSocket.closed) {
+      this.reconnect();
+    }
     let sendingMessage: string = JSON.stringify(data);
     sendingMessage =
       sendingMessage.length.toString().padStart(4, '0') + sendingMessage;
@@ -150,7 +152,7 @@ export class SocketService {
   }
 
   clearTimer(): void {
-    this.timerFlag = false;
     clearInterval(this.timer);
+    this.timerFlag = false;
   }
 }
