@@ -25,6 +25,11 @@ export class SocketService {
     if (!this.clientSocket) {
       Logger.error('Client socket is not initiated...', 'Socket');
       return;
+    } else {
+      Logger.log(
+        `Socket is initiated for server ${this.serverAddress.host}:${this.serverAddress.port} , total allowed attempt :${this.maxAttemps}`,
+        'Socket',
+      );
     }
     this.connectToServer();
   }
@@ -141,11 +146,14 @@ export class SocketService {
   }
 
   reconnect(): void {
-    if (this.timerFlag) {
+    if (this.timerFlag || this.attemps > this.maxAttemps) {
       return;
     }
     this.timer = setInterval(() => {
-      Logger.warn(`retrying...${this.attemps++}`, 'Socket');
+      Logger.warn(
+        `retrying to connect [${this.serverAddress.host}:${this.serverAddress.port}]...${this.attemps++}`,
+        'Socket',
+      );
       this.timerFlag = true;
       this.connectToServer();
     }, 3000);

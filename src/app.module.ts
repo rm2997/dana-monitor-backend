@@ -10,8 +10,9 @@ import { SocketModule } from './socket/socket.module';
       isGlobal: true,
     }),
     SocketModule.register({
-      host: 'localhost',
-      port: 25000,
+      host: process.env.DANA_SEREVR_ADDRESS,
+      port: Number.parseInt(process.env.DANA_SEREVR_PORT),
+      maxAttemps: 10,
     }),
   ],
   controllers: [AppController],
