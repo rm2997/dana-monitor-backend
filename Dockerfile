@@ -18,15 +18,18 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies 
-RUN npm install 
+RUN npm install --only=production
 
 # Install Nest framework
 RUN npm install -g @nestjs/cli
 # Copy the entire app to the container
 COPY . ./
 
+# Build the NestJs app
+RUN npm run build
+
 # Expose the port on which the app will run 
 EXPOSE 4000
 
 # Start the React app
-CMD ["npm", "run","start:prod"]
+CMD ["node", "dist/main.js"]

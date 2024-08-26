@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import * as net from 'net';
 import { SocketConfig, SocketReceiveMessage } from './entities';
+import { parse } from 'path';
 
 @Injectable()
 export class SocketService {
@@ -83,18 +84,16 @@ export class SocketService {
   }
 
   parseMessage(message: string): string {
-    const messageLen = Number.parseInt(
-      message.toString().trim().substring(0, 10),
-    );
+    const messageLen = Number.parseInt(message.trim().substring(0, 10));
     if (!messageLen) {
       Logger.error(
-        'Parser error: Invalid message format, missing length',
+        `Parser error: Invalid message format, missing length, ${messageLen}`,
         'Socket',
       );
       return '';
     }
     if (messageLen == message.substring(10).length) {
-      return message;
+      return message.substring(10);
     } else {
       Logger.error(
         `Parser error: Unexpected message length, expected: ${messageLen}, but: ${message.length - 10}`,
@@ -108,6 +107,7 @@ export class SocketService {
     try {
       Logger.log(`Data received : [${data.toString().trim()}]`, 'Socket');
       const parsed = this.parseMessage(data.toString().trim());
+      Logger.log(`Message parsig done.., ${parsed}`, 'Socket');
       if (parsed) {
         const message = JSON.parse(parsed) as SocketReceiveMessage;
         if (!message) {
