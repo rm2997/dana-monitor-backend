@@ -10,7 +10,6 @@ ENV DANA_SQL_ADDRESS=localhost
 ENV DANA_SQL_USER='sa'
 ENV DANA_SQL_PASS='123456'
 ENV Max_RECONNECT_ATTEMPS=10
-
 # Set the working directory in the container
 WORKDIR /app
 
@@ -18,15 +17,12 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies 
-RUN npm install --only=production
+RUN npm install 
 
 # Install Nest framework
 RUN npm install -g @nestjs/cli
 # Copy the entire app to the container
 COPY . ./
-
-# Build the NestJs app
-RUN npm run build
 
 # Expose the port on which the app will run 
 EXPOSE 4000
