@@ -9,6 +9,7 @@ ENV DANA_SEREVR_PORT=25000
 ENV DANA_SQL_ADDRESS=localhost
 ENV DANA_SQL_USER='sa'
 ENV DANA_SQL_PASS='123456'
+ENV Max_RECONNECT_ATTEMPS=10
 
 # Set the working directory in the container
 WORKDIR /app

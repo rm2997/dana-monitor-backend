@@ -84,7 +84,7 @@ export class SocketService {
 
   parseMessage(message: string): string {
     const messageLen = Number.parseInt(
-      message.toString().trim().substring(0, 4),
+      message.toString().trim().substring(0, 10),
     );
     if (!messageLen) {
       Logger.error(
@@ -93,11 +93,11 @@ export class SocketService {
       );
       return '';
     }
-    if (messageLen == message.substring(4).length) {
+    if (messageLen == message.substring(10).length) {
       return message;
     } else {
       Logger.error(
-        `Parser error: Unexpected message length, expected: ${messageLen}, but: ${message.length - 4}`,
+        `Parser error: Unexpected message length, expected: ${messageLen}, but: ${message.length - 10}`,
         'Socket',
       );
       return '';
@@ -127,7 +127,7 @@ export class SocketService {
     }
     let sendingMessage: string = JSON.stringify(data);
     sendingMessage =
-      sendingMessage.length.toString().padStart(4, '0') + sendingMessage;
+      sendingMessage.length.toString().padStart(10, '0') + sendingMessage;
     this.clientSocket.write(sendingMessage);
   }
 

@@ -12,7 +12,7 @@ import { SocketModule } from './socket/socket.module';
     SocketModule.register({
       host: process.env.DANA_SEREVR_ADDRESS,
       port: Number.parseInt(process.env.DANA_SEREVR_PORT),
-      maxAttemps: 10,
+      maxAttemps: Number.parseInt(process.env.Max_RECONNECT_ATTEMPS),
     }),
   ],
   controllers: [AppController],
