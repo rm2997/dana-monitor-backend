@@ -4,6 +4,7 @@ import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   Logger.log(
     `Application is listening to port [${process.env.APP_PORT}]`,
     'DANA-API',
