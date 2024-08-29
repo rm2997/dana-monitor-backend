@@ -3,10 +3,10 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: [`http://localhost:${process.env.APP_PORT}`],
-    methods: ['GET', 'POST'],
+    origin: `http://${process.env.DANA_FRONT_ADDRESS}`,
+    methods: 'GET,POST,HEAD,PUT,PATCH,DELETE',
     credentials: true,
   });
   Logger.log(
