@@ -2,7 +2,7 @@
 FROM docker.arvancloud.ir/node:22-alpine3.19
 
 # Set env variables 
-ENV HOSTNAME='Dana-monitor-backend'
+ENV HOSTNAME=Dana-monitor-backend
 ENV APP_PORT=4000
 ENV DANA_SEREVR_ADDRESS=localhost
 ENV DANA_SEREVR_PORT=25000

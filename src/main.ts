@@ -5,7 +5,7 @@ import { Logger } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: `http://${process.env.DANA_FRONT_ADDRESS}`,
+    origin: '*',
     methods: 'GET,POST,HEAD,PUT,PATCH,DELETE',
     credentials: true,
   });
