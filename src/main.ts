@@ -5,9 +5,10 @@ import { Logger } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: '*',
-    methods: 'GET,POST,HEAD,PUT,PATCH,DELETE',
+    origin: ['http://dana-monitor-front/'],
+    methods: ['GET', 'POST', 'HEAD', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
+    allowedHeaders: ['content-type'],
   });
   Logger.log(
     `Application is listening to port [${process.env.APP_PORT}]`,

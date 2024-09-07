@@ -127,7 +127,7 @@ export class SocketService {
     }
     let sendingMessage: string = JSON.stringify(data);
     sendingMessage =
-      sendingMessage.length.toString().padStart(10, '0') + sendingMessage;
+      sendingMessage.length.toString().padStart(4, '0') + sendingMessage;
     this.clientSocket.write(sendingMessage);
   }
 
