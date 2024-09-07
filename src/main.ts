@@ -5,7 +5,11 @@ import { Logger } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['http://dana-monitor-front/'],
+    origin: [
+      'http://dana-monitor-front/',
+      'http://10.2.10.44/',
+      'http://localhost',
+    ],
     methods: ['GET', 'POST', 'HEAD', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
     allowedHeaders: ['content-type'],
