@@ -7,27 +7,47 @@ export class AppService {
   constructor(private readonly socketService: SocketService) {}
 
   async getDanaInformation(): Promise<any> {
+    const retVal = [];
+    let message = new SocketSendMessage('DANA_GetStatus', null, false);
+    this.socketService.sendData(message);
+    retVal.push(await this.getDataFromQueue());
+
+    if (!retVal) return null;
+    return retVal;
+  }
+
+  async getLuInformation(): Promise<any> {
     let message = new SocketSendMessage('MainFrame_GetLUStatus', null, false);
     this.socketService.sendData(message);
     const retVal = [];
     retVal.push(await this.getDataFromQueue());
+    if (!retVal) return null;
+    return retVal;
+  }
 
-    message = new SocketSendMessage('MainFrame_GetGateStatus', null, false);
+  async getGateInformation(): Promise<any> {
+    let message = new SocketSendMessage('MainFrame_GetGateStatus', null, false);
     this.socketService.sendData(message);
+    const retVal = [];
     retVal.push(await this.getDataFromQueue());
+    if (!retVal) return null;
+    return retVal;
+  }
 
-    message = new SocketSendMessage('MainFrame_CheckPing', null, false);
+  async getPingInformation(): Promise<any> {
+    let message = new SocketSendMessage('MainFrame_CheckPing', null, false);
     this.socketService.sendData(message);
+    const retVal = [];
     retVal.push(await this.getDataFromQueue());
+    if (!retVal) return null;
+    return retVal;
+  }
 
-    message = new SocketSendMessage('MainFrame_CheckPort', null, false);
+  async getPortInformation(): Promise<any> {
+    let message = new SocketSendMessage('MainFrame_CheckPort', null, false);
     this.socketService.sendData(message);
+    const retVal = [];
     retVal.push(await this.getDataFromQueue());
-
-    message = new SocketSendMessage('DANA_GetStatus', null, false);
-    this.socketService.sendData(message);
-    retVal.push(await this.getDataFromQueue());
-
     if (!retVal) return null;
     return retVal;
   }
