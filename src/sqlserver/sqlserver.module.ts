@@ -3,16 +3,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SqlServerConfig } from './sqlServerConfig.entity';
 import { SocketModule } from 'src/socket/socket.module';
 import { SqlserverService } from './sqlserver.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mssql',
-      host: '192.168.22.3', //process.env.DANA_SQL_ADDRESS,
-      port: 1433, //Number.parseInt(process.env.DANA_SQL_PORT),
-      database: 'DanaMonitor', //process.env.DANA_SQL_DATABASE,
-      username: 'sa', //process.env.DANA_SQL_USER,
-      password: 'isc@123456', //process.env.DANA_SQL_PASS,
+      host: process.env.DANA_SQL_ADDRESS, //'192.168.22.3',
+      port: Number.parseInt(process.env.DANA_SQL_PORT), //1433,
+      database: process.env.DANA_SQL_DATABASE, //'DanaMonitor',
+      username: process.env.DANA_SQL_USER, //'sa',
+      password: process.env.DANA_SQL_PASS, //'isc@123456',
       entities: [],
       options: { trustServerCertificate: true },
     }),
