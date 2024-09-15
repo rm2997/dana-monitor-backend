@@ -1,13 +1,51 @@
-import { Controller, Get, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Logger, NotFoundException } from '@nestjs/common';
 import { AppService } from './app.service';
+import { SqlserverService } from './sqlserver/sqlserver.service';
+import { ResponseTimes } from './sqlserver/entities/responseTimes.entity';
+import { json } from 'stream/consumers';
 
 @Controller('api')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly sqlServerService: SqlserverService,
+  ) {}
 
   @Get('connect')
   connect() {
     this.appService.connect();
+  }
+
+  @Get('GetResponseTimes')
+  async getResponseTimes(): Promise<string[]> {
+    Logger.log('New database message received...', 'GetResponseTimes');
+    const result = await this.sqlServerService.getAllResponsTimes();
+    if (!result) {
+      throw new NotFoundException("Couldn't get data from DB...");
+    }
+
+    const resultJson = {
+      Status: { Code: '0', Message: 'Ok' },
+      Data: JSON.stringify(result),
+    };
+    Logger.log(`Response is ${JSON.stringify(result)}`, 'GetResponseTimes');
+    return [JSON.stringify(resultJson)];
+  }
+
+  @Get('GetHostTransactions')
+  async getHostTransactions(): Promise<string[]> {
+    Logger.log('New database message received...', 'GetHostTransactions');
+    const result = await this.sqlServerService.getHostTransactions();
+    if (!result) {
+      throw new NotFoundException("Couldn't get data from DB...");
+    }
+
+    const resultJson = {
+      Status: { Code: '0', Message: 'Ok' },
+      Data: JSON.stringify(result),
+    };
+    Logger.log(`Response is ${JSON.stringify(result)}`, 'GetHostTransactions');
+    return [JSON.stringify(resultJson)];
   }
 
   @Get('GetDanaStatus')

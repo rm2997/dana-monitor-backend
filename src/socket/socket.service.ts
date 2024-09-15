@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import * as net from 'net';
 import { SocketConfig, SocketReceiveMessage } from './entities';
-import { parse } from 'path';
 
 @Injectable()
 export class SocketService {
