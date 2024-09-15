@@ -15,9 +15,9 @@ export class SqlserverService {
 
   async getHostTransactions(): Promise<CountTimes[]> {
     const today = new Date();
-    const formatDate = '20240317'; /*Number.parseInt(
+    const formatDate = Number.parseInt(
       `${today.getFullYear().toString().padStart(4, '0')}${today.getMonth().toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`,
-    );*/
+    );
     const result = this.dataSource.query(
       `EXEC sp_SelectMessageCountByDateEveryMinute @date= ${formatDate}`,
     );
