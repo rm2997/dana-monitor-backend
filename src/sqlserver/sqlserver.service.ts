@@ -1,6 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { DataSource } from 'typeorm';
 import { ResponseTimes } from './entities/responseTimes.entity';
 import { CountTimes } from './entities/countTime.entity';
 
@@ -15,11 +14,9 @@ export class SqlserverService {
 
   async getHostTransactions(): Promise<CountTimes[]> {
     const today = new Date();
-    const formatDate = Number.parseInt(
-      `${today.getFullYear().toString().padStart(4, '0')}${today.getMonth().toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`,
-    );
+    const formatDate = `${today.getFullYear().toString().padStart(4, '0')}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
     const result = this.dataSource.query(
-      `EXEC sp_SelectMessageCountByDateEveryMinute @date= ${formatDate}`,
+      `EXEC sp_SelectMessageCountByDateEveryMinute @date=${formatDate}`,
     );
     return result;
   }
