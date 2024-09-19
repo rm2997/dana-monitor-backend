@@ -64,7 +64,7 @@ export class AppController {
     return retVal;
   }
 
-  @Get('RotateTablee')
+  @Get('RotateTable')
   async rotateTable() {
     const retVal = await this.appService.rotateTable();
     const filter = retVal.filter((element) => element == null);
