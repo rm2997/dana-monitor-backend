@@ -1,9 +1,10 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SqlServerConfig } from './sqlServerConfig.entity';
-import { SocketModule } from 'src/socket/socket.module';
 import { SqlserverService } from './sqlserver.service';
 import { ConfigModule } from '@nestjs/config';
+import { User } from 'src/user/entities/user.entity';
+import { UserModule } from 'src/user/user.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -17,8 +18,9 @@ import { ConfigModule } from '@nestjs/config';
       database: process.env.DANA_SQL_DATABASE, //'DanaMonitor',
       username: process.env.DANA_SQL_USER, //'sa',
       password: process.env.DANA_SQL_PASS, //'isc@123456',
-      entities: [],
+      entities: [User],
       options: { trustServerCertificate: true },
+      synchronize: process.env.NODE_ENV === 'production' ? false : true,
     }),
   ],
   providers: [SqlserverService],

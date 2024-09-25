@@ -1,7 +1,15 @@
-import { Controller, Get, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { SqlserverService } from './sqlserver/sqlserver.service';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('api')
 export class AppController {
   constructor(
