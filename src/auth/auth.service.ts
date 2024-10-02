@@ -1,4 +1,9 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from 'src/user/entities/user.dto';
 import { UserService } from 'src/user/user.service';
@@ -21,10 +26,15 @@ export class AuthService {
 
   async validateUser(user: UserDto) {
     try {
+      if (Object.keys(user).length === 0 && Object.values(user).length === 0)
+        return null;
       const validUser = await this.userService.findOne(user.userName);
-      if (validUser && bcrypt.compare(user.password, validUser.password))
+      if (
+        validUser &&
+        (await bcrypt.compare(user.password, validUser.password))
+      ) {
         return validUser;
-      throw new UnauthorizedException();
+      } else return null;
     } catch (error) {
       Logger.error(error.message, 'AuthService');
     }
