@@ -11,7 +11,7 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.register({
       global: true,
       secret: 'RezaMirasgari',
-      signOptions: { expiresIn: '120s' },
+      signOptions: { expiresIn: '1Days' },
     }),
   ],
   providers: [AuthService, JwtStrategy],
