@@ -13,6 +13,7 @@ import { RedisServerModule } from './redis-server/redis-server.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [redisConfig],
     }),
     SocketModule.register({
       host: process.env.DANA_SEREVR_ADDRESS,
