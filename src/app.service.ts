@@ -66,7 +66,7 @@ export class AppService {
     return retVal;
   }
 
-  async getLuPack(): Promise<any> {
+  async addLuPack(): Promise<any> {
     const retVal = [];
     let message = new SocketSendMessage('MainFrame_GetLu', null, false);
     this.socketService.sendData(message);

@@ -10,7 +10,7 @@ export class RedisServerService {
     this.redisConnection = this.redis.getOrNil();
   }
 
-  async getDataFromRedis(key: string): Promise<string | null> {
+  async getDataFromRedis(key: string): Promise<any | null> {
     if (this.redisConnection.exists(key))
       return await this.redisConnection.get(key);
     else return null;

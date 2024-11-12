@@ -18,13 +18,14 @@ export class UserController {
     return await this.userService.create(userData.userName, userData.password);
   }
 
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   async getAllUsers(): Promise<User[] | string> {
     const redisResult = await this.redisService.getDataFromRedis('Users');
-    console.log(redisResult);
-
     if (redisResult !== null) return redisResult;
-    return this.userService.findAll();
+
+    const apiResult = this.userService.findAll();
+    await this.redisService.putDataToRedis('Users', apiResult);
+    return apiResult;
   }
 }
