@@ -6,6 +6,8 @@ import { SocketModule } from './socket/socket.module';
 import { SQlServerMoudule } from './sqlserver/sqlserver.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import redisConfig from './config/redis.config';
+import { RedisServerModule } from './redis-server/redis-server.module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { UserModule } from './user/user.module';
     SQlServerMoudule,
     AuthModule,
     UserModule,
+    RedisServerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

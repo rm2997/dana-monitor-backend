@@ -3,6 +3,7 @@ import {
   Get,
   Logger,
   NotFoundException,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
@@ -22,7 +23,7 @@ export class AppController {
     this.appService.connect();
   }
 
-  @Get('CloseGate')
+  @Post('CloseGate')
   async closeGate() {
     const retVal = await this.appService.closeGate();
     const filter = retVal.filter((element) => element == null);
@@ -32,7 +33,7 @@ export class AppController {
     return retVal;
   }
 
-  @Get('OpenGate')
+  @Post('OpenGate')
   async openGate() {
     const retVal = await this.appService.openGate();
     const filter = retVal.filter((element) => element == null);
@@ -42,7 +43,7 @@ export class AppController {
     return retVal;
   }
 
-  @Get('ReconnectLu')
+  @Post('ReconnectLu')
   async reconnectLu() {
     const retVal = await this.appService.reconnectLu();
     const filter = retVal.filter((element) => element == null);
@@ -52,7 +53,7 @@ export class AppController {
     return retVal;
   }
 
-  @Get('BackupDb')
+  @Post('BackupDb')
   async backupDb() {
     const retVal = await this.appService.backupDb();
     const filter = retVal.filter((element) => element == null);
@@ -62,7 +63,7 @@ export class AppController {
     return retVal;
   }
 
-  @Get('BackupLogFile')
+  @Post('BackupLogFile')
   async backupLogFile() {
     const retVal = await this.appService.backupLogFile();
     const filter = retVal.filter((element) => element == null);
@@ -72,7 +73,7 @@ export class AppController {
     return retVal;
   }
 
-  @Get('RotateTable')
+  @Post('RotateTable')
   async rotateTable() {
     const retVal = await this.appService.rotateTable();
     const filter = retVal.filter((element) => element == null);
@@ -82,7 +83,7 @@ export class AppController {
     return retVal;
   }
 
-  @Get('GetLuPack')
+  @Post('GetLuPack')
   async getLuPack() {
     const retVal = await this.appService.getLuPack();
     const filter = retVal.filter((element) => element == null);

@@ -78,8 +78,10 @@ export class SocketService {
         this.timerFlag = false;
       }
     });
-    if (this.clientSocket.closed) return false;
-    else return true;
+    if (this.clientSocket.closed) {
+      Logger.warn('Could not make connection after retrying!', 'Socket');
+      return false;
+    } else return true;
   }
 
   parseMessage(message: string): string {
@@ -141,7 +143,8 @@ export class SocketService {
     Logger.warn('Connection closed..', 'Socket');
     this.destroySocket();
     this.clientSocket = this.createSocket();
-    if (this.timerFlag == false) this.reconnect();
+    if (this.timerFlag == false && this.attemps < this.maxAttemps)
+      this.reconnect();
   }
 
   reconnect(): void {
