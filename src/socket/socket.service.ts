@@ -43,10 +43,12 @@ export class SocketService {
     });
 
     socket.on('close', () => {
+      Logger.log('Close connection handled', 'Socket');
       this.handleClosedConnection();
     });
 
     socket.on('error', (error) => {
+      Logger.log(`Error on socket: ${error}`, 'Socket');
       this.handleError(error);
     });
     return socket;
@@ -137,13 +139,14 @@ export class SocketService {
   }
 
   handleClosedConnection(): void {
-    if (!this.clientSocket.closed) {
+    if (this.clientSocket.closed == false) {
       return;
     }
     Logger.warn('Connection closed..', 'Socket');
+
     this.destroySocket();
     this.clientSocket = this.createSocket();
-    if (this.timerFlag == false && this.attemps < this.maxAttemps)
+    if (this.timerFlag == false && this.attemps <= this.maxAttemps)
       this.reconnect();
   }
 
@@ -152,8 +155,9 @@ export class SocketService {
       return;
     }
     this.timer = setInterval(() => {
+      this.attemps = this.attemps + 1;
       Logger.warn(
-        `retrying to connect [${this.serverAddress.host}:${this.serverAddress.port}]...${this.attemps++}`,
+        `retrying to connect [${this.serverAddress.host}:${this.serverAddress.port}]...${this.attemps}`,
         'Socket',
       );
       this.timerFlag = true;

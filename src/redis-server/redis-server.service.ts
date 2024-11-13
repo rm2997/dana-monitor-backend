@@ -1,5 +1,5 @@
 import { RedisService } from '@liaoliaots/nestjs-redis';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Redis } from 'ioredis';
 
 @Injectable()
@@ -10,14 +10,19 @@ export class RedisServerService {
   }
 
   async getDataFromRedis(key: string): Promise<any | null> {
-    if (this.redisConnection.exists(key))
+    if (this.redisConnection.exists(key)) {
+      Logger.log(`This message[${key}] will read from Redis`, 'Redis');
       return await this.redisConnection.get(key);
-    else return null;
+    } else return null;
   }
   async putDataToRedis(key: string, value: any): Promise<boolean> {
     try {
       await this.redisConnection.set(key, value);
       await this.redisConnection.expire(key, 60);
+      Logger.log(
+        `This message[${key}] has benn set into Redis server`,
+        'Redis',
+      );
       return true;
     } catch {
       return false;
